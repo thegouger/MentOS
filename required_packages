@@ -1,0 +1,7 @@
+build-essential
+nasm
+genisoimage
+bochs
+bochs-sdl
+gcc-multilib
+g++-multilib

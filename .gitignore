@@ -1,0 +1,5 @@
+*.elf
+*.o
+*.iso
+*.swp
+run/log
