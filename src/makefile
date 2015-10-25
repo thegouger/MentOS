@@ -1,4 +1,4 @@
-OBJECTS = loader.o framebuffer.o kmain.o io_ports.o interrupts.o
+OBJECTS = loader.o framebuffer.o kmain.o io_ports.o interrupts.o int.o lib/memcpy.o
 LINKERSCRIPT = kernel.ld
 
 CC = g++
@@ -6,7 +6,7 @@ LD = ld
 AS = nasm
 
 CPPFLAGS = -std=c++11 -m32 -nostdlib -fno-builtin -fno-stack-protector \
-           -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+           -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Ilib/
 LDFLAGS = -T $(LINKERSCRIPT) -melf_i386
 ASFLAGS = -f elf
 

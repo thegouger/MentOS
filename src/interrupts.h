@@ -4,16 +4,34 @@
 
 struct IDT_Entry
 {
-   uint16_t addr_h;
-   uint16_t type;
-   uint16_t segment;
    uint16_t addr_l;
+   uint16_t segment;
+   uint16_t type;
+   uint16_t addr_h;
 
-   IDT_Entry() : type(0x8300), // in memory handler, privilege level 0
-                 segment(0x08) // kernel segment
+   IDT_Entry() : addr_l(0x00),
+                 segment(0x08), // kernel segment
+                 type(0x8E00), // in memory handler, privilege level 0
+                 addr_h(0x00)
    {
    }
 } __attribute__((packed));
+
+struct IDT_Desc
+{
+    uint16_t limit;
+    uint32_t base;
+
+    IDT_Desc() : limit(0x7F8),
+                 base(0x00)
+    {
+    }
+} __attribute__((packed));
+
+extern "C"
+{
+    void load_idt(const IDT_Desc* tableDesc); // defined in interrupts.s
+}
 
 class Interrupts
 {
@@ -31,8 +49,11 @@ public:
     static const uint8_t MASTER_ICW3 = 0x04; // Tells Master there is a Slave on IRQ 2, the Cascade IRQ (0100)
     static const uint8_t SLAVE_ICW3  = 0x02; // Tells Slave its cascade identity (010)
 
+    static const uint8_t EOI = 0x20; // End of Interrupt
+
     static void init();
 private:
     static void init_pic();
-    static IDT_Entry const _IDT[256];
+    static void pic_ack(unsigned int irq);
 };
+
