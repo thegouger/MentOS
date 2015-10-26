@@ -6,7 +6,7 @@ LD = ld
 AS = nasm
 
 CPPFLAGS = -std=c++11 -m32 -nostdlib -fno-builtin -fno-stack-protector \
-           -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Ilib/
+           -nostartfiles -nodefaultlibs -Wall -Wextra -c -Ilib/
 LDFLAGS = -T $(LINKERSCRIPT) -melf_i386
 ASFLAGS = -f elf
 

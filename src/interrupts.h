@@ -30,7 +30,10 @@ struct IDT_Desc
 
 extern "C"
 {
+    void interrupt_handler(uint8_t interrupt_number);
     void load_idt(const IDT_Desc* tableDesc); // defined in interrupts.s
+
+    void handler_1();
 }
 
 class Interrupts
@@ -52,8 +55,7 @@ public:
     static const uint8_t EOI = 0x20; // End of Interrupt
 
     static void init();
+    static void pic_ack(unsigned int irq);
 private:
     static void init_pic();
-    static void pic_ack(unsigned int irq);
 };
-
