@@ -16,15 +16,7 @@ void itoa(char* buf, unsigned int num, int base)
 
     while(num)
     {
-        switch(base)
-        {
-            case 16:
-                buf[digit++] = num % base > 9 ? (num % base - 10) + 'A' : num % base + '0';
-                break;
-            default:
-                buf[digit++] = num % base + '0';
-                break;
-        }
+        buf[digit++] = num % base > 9 ? (num % base - 10) + 'A' : num % base + '0';
         num /= base;
     }
 
