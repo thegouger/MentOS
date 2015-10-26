@@ -2,19 +2,40 @@
 #include "io_ports.h"
 #include "framebuffer.h"
 #include "memcpy.h"
+#include "cpu.h"
+#include "keyboard.h"
+
+extern "C"
+{
+    void keyboard_handler(); // defined in int.s
+    void load_idt(const IDT_Desc* tableDesc); // defined in interrupts.s
+}
 
 void Interrupts::init()
 {
     IDT_Desc idt_desc;
     IDT_Entry IDT[256];
 
-    IDT[0x21].addr_l = ((uint32_t) &handler_1) & 0xFFFF;
-    IDT[0x21].addr_h = (((uint32_t) &handler_1) >> 16) & 0xFFFF;
+    IDT[0x21].addr_l = ((uint32_t) &keyboard_handler) & 0xFFFF;
+    IDT[0x21].addr_h = (((uint32_t) &keyboard_handler) >> 16) & 0xFFFF;
 
     memcpy((char *)IDT, (char *)idt_desc.base, idt_desc.limit);
 
     load_idt(&idt_desc);
     init_pic();
+
+    enable_interrupts();
+
+}
+
+void Interrupts::enable_interrupts()
+{
+    __asm__("sti");
+}
+
+void Interrupts::disable_interrupts()
+{
+    __asm__("cli");
 }
 
 void Interrupts::init_pic()
@@ -45,20 +66,19 @@ void Interrupts::pic_ack(unsigned int irq)
     outb(MASTER_COMMAND_PORT, EOI);
 }
 
-void interrupt_handler(uint8_t interrupt_number)
+void interrupt_handler(CPU_Registers /*r*/, uint8_t interrupt_number, InterruptState /*is*/)
 {
     // handle interrupt
-      Framebuffer::write("got int");
+    switch(interrupt_number)
+    {
+        case 1:
+            Keyboard::keyPressed();
+            break;
+        default:
+            Framebuffer::write("unknown int");
+            break;
+    }
 
-//    switch(interrupt_number)
-//    {
-//        case 1:
-//            Framebuffer::write("got int");
-//            break;
-//        default:
-//            break;
-//    }
-//
     // send ack to PIC
     Interrupts::pic_ack(0);
 }

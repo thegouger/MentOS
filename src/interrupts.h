@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "cpu.h"
 
 struct IDT_Entry
 {
@@ -30,10 +31,7 @@ struct IDT_Desc
 
 extern "C"
 {
-    void interrupt_handler(uint8_t interrupt_number);
-    void load_idt(const IDT_Desc* tableDesc); // defined in interrupts.s
-
-    void handler_1();
+    void interrupt_handler(CPU_Registers reg, uint8_t interrupt_number, InterruptState state);
 }
 
 class Interrupts
@@ -58,4 +56,6 @@ public:
     static void pic_ack(unsigned int irq);
 private:
     static void init_pic();
+    static void enable_interrupts();
+    static void disable_interrupts();
 };
