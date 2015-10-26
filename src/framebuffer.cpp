@@ -23,6 +23,12 @@ void Framebuffer::writeCell(unsigned int pos, char c, uint8_t colour)
 
 void Framebuffer::write(char c, uint8_t colour)
 {
+    if(c == '\n')
+    {
+        _cursorPos = (_cursorPos + FRAMEBUFFER_COLS) / FRAMEBUFFER_COLS * FRAMEBUFFER_COLS;
+        moveCursor(_cursorPos);
+        return;
+    }
     writeCell(_cursorPos, c, colour);
     moveCursor(++_cursorPos);
 }
@@ -36,6 +42,13 @@ void Framebuffer::write(char const* str, uint8_t colour)
 
     while(*chr)
     {
+        if(*chr == '\n')
+        {
+            _cursorPos = (_cursorPos + FRAMEBUFFER_COLS) / FRAMEBUFFER_COLS * FRAMEBUFFER_COLS;
+            moveCursor(_cursorPos);
+            chr++;
+            continue;
+        }
         writeCell(_cursorPos, *chr, colour);
         _cursorPos++;
         chr++;

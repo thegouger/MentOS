@@ -1,4 +1,4 @@
-OBJECTS = loader.o framebuffer.o kmain.o io_ports.o interrupts.o int.o keyboard.o lib/memcpy.o
+OBJECTS = loader.o framebuffer.o kmain.o io_ports.o interrupts.o int.o keyboard.o lib/memcpy.o lib/itoa.o
 LINKERSCRIPT = kernel.ld
 
 CC = g++

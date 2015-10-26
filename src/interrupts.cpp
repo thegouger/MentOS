@@ -73,12 +73,11 @@ void interrupt_handler(CPU_Registers /*r*/, uint8_t interrupt_number, InterruptS
     {
         case 1:
             Keyboard::keyPressed();
+            // send ack to PIC
+            Interrupts::pic_ack(1);
             break;
         default:
             Framebuffer::write("unknown int");
             break;
     }
-
-    // send ack to PIC
-    Interrupts::pic_ack(0);
 }
