@@ -4,6 +4,7 @@
 #include "memcpy.h"
 #include "cpu.h"
 #include "keyboard.h"
+#include "systick.h"
 
 extern "C"
 {
@@ -89,6 +90,7 @@ void interrupt_handler(CPU_Registers /*r*/, uint8_t interrupt_number, InterruptS
     switch(interrupt_number)
     {
         case 0:
+            Systick::tick();
             Interrupts::pic_ack(0);
             break;
         case 1:
