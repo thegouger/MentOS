@@ -12,6 +12,5 @@ void kmain()
 
     Framebuffer::write("Booted successfully\n");
 
-
     while(1);
 }

@@ -11,7 +11,12 @@ load_idt:
 
 ; interrupt handlers
 extern interrupt_handler
+global systick_handler
 global keyboard_handler
+
+systick_handler:
+    push dword 0 ; push interrupt number
+    jmp common_handler
 
 keyboard_handler:
     push dword 1 ; push interrupt number
