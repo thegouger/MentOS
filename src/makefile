@@ -5,7 +5,7 @@ CC = g++
 LD = ld
 AS = nasm
 
-CPPFLAGS = -std=c++11 -m32 -nostdlib -fno-builtin -fno-stack-protector \
+CPPFLAGS = -std=c++11 -m32 -nostdlib -fno-builtin -fno-stack-protector -fno-exceptions \
            -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -Ilib/ -Iutilities/
 LDFLAGS = -T $(LINKERSCRIPT) -melf_i386
 ASFLAGS = -f elf

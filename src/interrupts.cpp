@@ -25,7 +25,6 @@ void Interrupts::init()
     init_pic();
 
     enable_interrupts();
-
 }
 
 void Interrupts::enable_interrupts()
