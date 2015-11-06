@@ -1,4 +1,5 @@
 #include "systick.h"
+#include "framebuffer.h"
 
 uint64_t Systick::_ticks = 0;
 

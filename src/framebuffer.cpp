@@ -62,6 +62,8 @@ void Framebuffer::moveCursor(uint16_t pos)
     if(pos > FRAMEBUFFER_ROWS * (FRAMEBUFFER_COLS - 1)) // pos out of range
         return;
 
+    _cursorPos = pos;
+
     outb(ADDR_REGISTER, CURSOR_LOCATION_H_IDX);
     outb(DATA_REGISTER, (pos >> 8) & 0xFF);
 
